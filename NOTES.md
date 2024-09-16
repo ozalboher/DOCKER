@@ -115,3 +115,19 @@ docker login
 ```sh
 docker image history imageName:tag
 ```
+# REDUCING LAYERS: Because Docker is caching each command as a layer, it can save up space and time. So if I would build a new image that uses some command of a previous image it would not need to download and save it sepereately. It would just use the cached layer. But also remember that each layer takes up a chunk of space, so I can also combine my commands as one and docker would treat it as only one layer. So if I would install python and then install a package, I can combine it like this:
+```dockerfile
+RUN apk add python3 && \ 
+    apk add package && \
+    apk add package2
+```
+# IMPORT & EXPORT: To export an image to a tar file, we can do that like this:
+```sh
+docker export 36975d25bf49 > ./export.tar
+```
+# The number afrer the export is the container ID. to view a container ID, we can type 'docker container ls -a'. the -a flag is used to show all containers, not just the running ones.(we would obviously need to have a container running at some point to view the ID).Exporting a container as a tarball file would mean the history of the image would be lost(Unlike exporting Image as a tarball that would also keep the history) But this would be useful to do if we would want to save some extra space.
+# To import an image from a tar file, we can do that like this:
+```sh
+cat export.tar | docker import - imageName:tag
+```
+# 'cat' command Reads the contents of the export.tar file and outputs it to the standard output  and we pipe it to the docker import command with the '|' symbol and the '-' symbol is used to specify the standard input.
