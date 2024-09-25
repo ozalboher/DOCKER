@@ -7,6 +7,7 @@
 
 ## VIEWING all LAYERS via HISTORY:
 
+
 # Each docker instruction command creates a new Layer with a unique ID. Only the top layer would be writeable and the rest would be read-only. The top layer is called the container layer. We can see the layers of an image by typing:
 ```sh
 docker image history imageName:tag
